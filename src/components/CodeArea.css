@@ -1,0 +1,63 @@
+.code_area{
+
+    
+    width:1200px;
+    
+    font-size: 20px;
+    font-family:'Courier New', Courier, monospace;
+    overflow-y: auto;
+
+    flex:2;
+
+    overflow-x: hidden;
+    
+
+}
+
+
+.container_editor{
+    display: flex;
+    width: 100%;
+    
+    height: fit-content;
+    min-height: 600px;
+
+    position: relative;
+    
+   
+}
+
+.code_editor{
+
+    
+    background-color: rgb(83, 95, 87);
+    margin-left: 5px;
+    
+    width:100%;
+
+    font-size: 20px;
+    font-family:'Courier New', Courier, monospace;
+    color:rgb(236, 214, 42);
+    padding-top:0px;
+    resize:none;
+    overflow: hidden;
+
+    padding-left: 15px;
+
+    line-height: 1.5em;
+
+    
+
+    
+}
+
+
+.highlighted-overlay {
+    position: absolute;
+    width: 1200px;
+    height: 1.5em; /* Adjust the line height as needed */
+    background-color: rgba(21, 255, 100, 0.3); /* Adjust the background color as needed */
+    pointer-events: none;
+    z-index: 1;
+    
+  }
