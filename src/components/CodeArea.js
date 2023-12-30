@@ -20,7 +20,10 @@ const code_ = `.container_editor{
  
     
 
-}`;
+}
+
+
+`;
 
 
 export default function CodeArea() {
@@ -78,8 +81,46 @@ export default function CodeArea() {
 
         // Return
         if(e.keyCode == 8){
+            const lineNumber = e.target.value.substr(0, e.target.selectionStart).split('\n').length;
+            const positionInCode = e.target.value.substr(0, e.target.selectionStart).split('\n');
+
+            if(positionInCode[positionInCode.length-1] == ""){
+                if(lineNumber >1)
+                    highlightCurrentLine(lineNumber-1);
+            }
+            console.log(positionInCode[positionInCode.length-1]);
             
         }
+
+        // Left arrow
+        if(e.keyCode == 37){
+            const lineNumber = e.target.value.substr(0, e.target.selectionStart).split('\n').length;
+            const positionInCode = e.target.value.substr(0, e.target.selectionStart).split('\n');
+
+            if(positionInCode[positionInCode.length-1] == ""){
+                if(lineNumber >1)
+                    highlightCurrentLine(lineNumber-1);
+            }
+            console.log(positionInCode[positionInCode.length-1]);
+            //highlightCurrentLine(lineNumber);
+        }
+
+        // Right arrow
+        if(e.keyCode == 39){
+            const lineNumber = e.target.value.substr(0, e.target.selectionStart).split('\n').length;
+            const positionInCode = e.target.value.substr(0, e.target.selectionStart+1).split('\n');
+
+
+            console.log(positionInCode[positionInCode.length-1]);
+
+            if(positionInCode[positionInCode.length-1] == ""){
+                if(lineNumber<nbLines)
+                    highlightCurrentLine(lineNumber+1);
+            }
+            
+           
+        }
+
 
         // Down
         if(e.keyCode == 40){
@@ -91,7 +132,7 @@ export default function CodeArea() {
         // Enter
         if(e.keyCode == 13){
             const lineNumber = e.target.value.substr(0, e.target.selectionStart).split('\n').length;
-            if(lineNumber <nbLines)
+            if(lineNumber <nbLines || lineNumber == nbLines)
                 highlightCurrentLine(lineNumber+1);
         } 
         
