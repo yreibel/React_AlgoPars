@@ -2,7 +2,7 @@ import './CodeArea.css';
 
 import LineNumbers from './LineNumbers';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useLayoutEffect } from 'react';
 
 const code_ = `.container_editor{
     display: flex;
@@ -52,14 +52,14 @@ export default function CodeArea() {
       setLineHeight(textAreaRef.current.scrollHeight / textAreaRef.current.rows);
 
       // Set the focus on text area
-      textAreaRef.current.focus();
+      //textAreaRef.current.focus();
 
-      //highlightCurrentLine(split_code.length);
+      //highlightCurrentLine(2);
 
 
   }, []);
 
-
+ 
   const handleFocus = (e) => {
     console.log("HELLO TEST");
     console.log(e.target.selectionStart);
@@ -194,6 +194,13 @@ export default function CodeArea() {
    * @param {*} e 
    */
   const handleOnStartExecution = (e) =>{
+
+        //console.log(textAreaRef.current.value);
+        const code_value = textAreaRef.current.value.split("\n");
+        let map_array = new Map(code_value.map((value, index) => [index + 1, value]));
+
+
+        // Check if it's already being executed, if yes, stop the execution 
         if (intervalMovingLayer) {
             clearInterval(intervalMovingLayer);
         }
@@ -217,7 +224,7 @@ export default function CodeArea() {
             }, 200);
 
         setIntervalMovingLayer(intervalId);
-
+        
         setCurrentLine(line);
 
   }
