@@ -37,6 +37,8 @@ export default function CodeArea() {
 
   const [lineHeight, setLineHeight] = useState(0);
 
+  const [intervalMovingLayer, setIntervalMovingLayer] = useState(null);
+
   
   useEffect(()=>{
 
@@ -75,8 +77,11 @@ export default function CodeArea() {
         // Up
         if(e.keyCode == 38){
             const lineNumber = e.target.value.substr(0, e.target.selectionStart).split('\n').length;
-            if(lineNumber >1)
-                highlightCurrentLine(lineNumber-1);
+            if(lineNumber >1){
+                highlightCurrentLine(lineNumber-1); // Go to the previous line
+                setCurrentLine(lineNumber); // lineNumber because consider the line on which the action is taken
+                console.log("UP LINE" + lineNumber);
+            }
         }
 
         // Return
@@ -85,8 +90,11 @@ export default function CodeArea() {
             const positionInCode = e.target.value.substr(0, e.target.selectionStart).split('\n');
 
             if(positionInCode[positionInCode.length-1] == ""){
-                if(lineNumber >1)
+                if(lineNumber >1){
                     highlightCurrentLine(lineNumber-1);
+                    setCurrentLine(lineNumber);
+                    console.log("RETURN LINE" + lineNumber);
+                }
             }
             console.log(positionInCode[positionInCode.length-1]);
             
@@ -98,8 +106,11 @@ export default function CodeArea() {
             const positionInCode = e.target.value.substr(0, e.target.selectionStart).split('\n');
 
             if(positionInCode[positionInCode.length-1] == ""){
-                if(lineNumber >1)
+                if(lineNumber >1){
                     highlightCurrentLine(lineNumber-1);
+                    setCurrentLine(lineNumber);
+                    console.log("LEFT LINE" + lineNumber);
+                }
             }
             console.log(positionInCode[positionInCode.length-1]);
             //highlightCurrentLine(lineNumber);
@@ -114,8 +125,11 @@ export default function CodeArea() {
             console.log(positionInCode[positionInCode.length-1]);
 
             if(positionInCode[positionInCode.length-1] == ""){
-                if(lineNumber<nbLines)
+                if(lineNumber<nbLines){
                     highlightCurrentLine(lineNumber+1);
+                    setCurrentLine(lineNumber);
+                    console.log("RIGHT LINE" + lineNumber);
+                }
             }
             
            
@@ -125,15 +139,21 @@ export default function CodeArea() {
         // Down
         if(e.keyCode == 40){
             const lineNumber = e.target.value.substr(0, e.target.selectionStart).split('\n').length;
-            if(lineNumber <nbLines)
+            if(lineNumber <nbLines){
                 highlightCurrentLine(lineNumber+1);
+                setCurrentLine(lineNumber);
+                console.log("DOWN LINE" + lineNumber);
+            }
         } 
 
         // Enter
         if(e.keyCode == 13){
             const lineNumber = e.target.value.substr(0, e.target.selectionStart).split('\n').length;
-            if(lineNumber <nbLines || lineNumber == nbLines)
+            if(lineNumber <nbLines || lineNumber == nbLines){
                 highlightCurrentLine(lineNumber+1);
+                setCurrentLine(lineNumber);
+                console.log("ENTER LINE" + lineNumber);
+            }
         } 
         
         
@@ -159,13 +179,46 @@ export default function CodeArea() {
   };
 
 
-  const handleLineClick = (e, line) =>{
-        //console.log(line);
+  const handleLineClick = (e) =>{
+        const lineNumber = e.target.value.substr(0, e.target.selectionStart).split('\n').length;
+
+        setCurrentLine(lineNumber);
+
+        highlightCurrentLine(lineNumber);
+
+  }
+
+  /**
+   * handleOnStartExecution
+   * 
+   * @param {*} e 
+   */
+  const handleOnStartExecution = (e) =>{
+        if (intervalMovingLayer) {
+            clearInterval(intervalMovingLayer);
+        }
+
+        console.log("btn click current line " + currentLine );
+        //setCurrentLine(b);
+        let line = 1;
+
+        const intervalId = setInterval(
+            () => {
+                if(line < nbLines+1){
+                    console.log("YOO " + line);
+                    
+                    highlightCurrentLine(line);
+                    line = line+1
+                }
+                else {
+                    clearInterval(intervalId);
+                }
+
+            }, 200);
+
+        setIntervalMovingLayer(intervalId);
+
         setCurrentLine(line);
-
-        highlightCurrentLine(line);
-
-
 
   }
 
@@ -182,14 +235,12 @@ export default function CodeArea() {
                 onFocus={handleFocus}
                 onKeyDown={handleKeyDown}
                 onChange={handleCodeChange}
-                onClick={(e) => {
-                const lineNumber = e.target.value.substr(0, e.target.selectionStart).split('\n').length;
-                handleLineClick(e, lineNumber);
-                }}
+                onClick={handleLineClick}
                 placeholder="Type your code here..."
             />
 
             <div ref={overlayRef} className="highlighted-overlay" />
+            <button onClick={handleOnStartExecution} className="start_execution_button"></button>
             
            
            
