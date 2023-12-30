@@ -1,4 +1,4 @@
-import './OutputArea.css';
+import '../css/OutputArea.css';
 
 export default function OutputArea() {
   return (

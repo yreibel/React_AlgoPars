@@ -1,4 +1,4 @@
-import './CodeArea.css';
+import '../css/CodeArea.css';
 
 import LineNumbers from './LineNumbers';
 
@@ -42,8 +42,6 @@ export default function CodeArea() {
   
   useEffect(()=>{
 
-   
-      console.log("RERENDERING");
     
       const split_code = code_.split("\n");
       setNbLines(split_code.length);

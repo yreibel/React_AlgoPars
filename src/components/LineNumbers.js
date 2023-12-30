@@ -1,4 +1,4 @@
-import './LineNumbers.css';
+import '../css/LineNumbers.css';
 
 import { useState } from 'react';
 

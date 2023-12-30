@@ -1,4 +1,4 @@
-import './VariablesArea.css';
+import '../css/VariablesArea.css';
 
 export default function VariablesArea() {
   return (
