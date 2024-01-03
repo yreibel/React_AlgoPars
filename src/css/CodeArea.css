@@ -11,6 +11,7 @@
 
     overflow-x: hidden;
     
+    
 
 }
 
@@ -27,30 +28,6 @@
    
 }
 
-.code_editor{
-
-    
-    background-color: rgb(83, 95, 87);
-    margin-left: 5px;
-    
-    width:100%;
-
-    font-size: 20px;
-    font-family:'Courier New', Courier, monospace;
-    color:rgb(236, 214, 42);
-    padding-top:0px;
-    resize:none;
-    overflow: hidden;
-
-    padding-left: 15px;
-
-    line-height: 1.5em;
-
-    
-
-    
-}
-
 
 .highlighted-overlay {
     position: absolute;
@@ -59,6 +36,7 @@
     background-color: rgba(21, 255, 100, 0.3); /* Adjust the background color as needed */
     pointer-events: none;
     z-index: 1;
+    display:none;
     
   }
 
