@@ -6,28 +6,14 @@ import CodeEditor from './CodeEditor';
 import useCode from '../hooks/useCode';
 import useHighlightedLine from '../hooks/useHighLightedLine';
 
+import {CodeParse} from '../scripts/codeParsing'; 
+
 import { useEffect, useState, useRef, useLayoutEffect } from 'react';
 
 
-const code_ = `.container_editor{
-    display: flex;
-    width: 100%;
-    height: fit-content;
-}
+const code_ = `a:entier
 
-.code_editor{
-
-    margin-left: 5px;
-
-    
-    width:100%;
-
- 
-    
-
-}
-
-
+b: reel
 `;
 
 export default function CodeArea() {
@@ -51,8 +37,17 @@ export default function CodeArea() {
   const handleOnStartExecution = (e) =>{
 
         
-        const code_value = textAreaRef.current.value.split("\n");
-        let map_array = new Map(code_value.map((value, index) => [index + 1, value]));
+        
+        //let map_array = new Map(code_value.map((value, index) => [index + 1, value]));
+
+        console.log("START");
+        //console.log(code);
+        console.log("FIN");
+
+        let codeParse = new CodeParse(code);
+        let arr_ = codeParse.loopExtractVariables()
+        console.log(arr_);
+        
 
 
         // Check if it's already being executed, if yes, stop the execution 
@@ -65,7 +60,7 @@ export default function CodeArea() {
         const intervalId = setInterval(
             () => {
                 if(line < nbLines+1){
-                    console.log("YOO " + line);
+                    //console.log("YOO " + line);
                     
                     highlightCurrentLine(line);
                     line = line+1
