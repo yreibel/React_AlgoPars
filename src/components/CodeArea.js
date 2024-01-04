@@ -8,12 +8,14 @@ import useHighlightedLine from '../hooks/useHighLightedLine';
 
 import {CodeParse} from '../scripts/codeParsing'; 
 
-import { useEffect, useState, useRef, useLayoutEffect } from 'react';
+import { useState, useRef } from 'react';
 
 
 const code_ = `a:entier
+b:entier
+b  <=      4
 
-b: reel
+a,b<=5
 `;
 
 export default function CodeArea() {
@@ -37,40 +39,39 @@ export default function CodeArea() {
   const handleOnStartExecution = (e) =>{
 
         
-        
-        //let map_array = new Map(code_value.map((value, index) => [index + 1, value]));
-
         console.log("START");
-        //console.log(code);
-        console.log("FIN");
-
+       
         let codeParse = new CodeParse(code);
         let arr_ = codeParse.loopExtractVariables()
         console.log(arr_);
+        console.log("boom")
         
-
+       
 
         // Check if it's already being executed, if yes, stop the execution 
         if (intervalMovingLayer) {
             clearInterval(intervalMovingLayer);
         }
 
-        let line = 1;
+        let line = 0;
 
         const intervalId = setInterval(
             () => {
-                if(line < nbLines+1){
-                    //console.log("YOO " + line);
-                    
-                    highlightCurrentLine(line);
+                if(line < nbLines){
+                    codeParse.processLine(line);
+                    // Highlight
+                    highlightCurrentLine(line+1);
                     line = line+1
                 }
                 else {
+                    console.log("boom end");
+                    codeParse.showTraceExec();
                     clearInterval(intervalId);
                 }
 
-            }, 200);
+            }, 400);
 
+        
         setIntervalMovingLayer(intervalId);
         
         //setCurrentLine(line);
@@ -88,13 +89,9 @@ export default function CodeArea() {
             <CodeEditor textAreaRef={textAreaRef} overlayRef={overlayRef} nbLines={nbLines} code={code} handleCodeChange={handleCodeChange}></CodeEditor>
 
             
-
             <div ref={overlayRef} className="highlighted-overlay" />
            
             
-           
-           
-
         </div>
        
         <button onClick={handleOnStartExecution} className="start_execution_button"></button>
