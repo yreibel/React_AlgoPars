@@ -9,6 +9,8 @@ import useHighlightedLine from '../hooks/useHighLightedLine';
 import {CodeParse} from '../scripts/codeParsing'; 
 
 import { useState, useRef } from 'react';
+import { useVariablesStore } from '../stores/variablesStore';
+import { useVariablesValueStore } from '../stores/variablesValueStore';
 
 
 const code_ = `a:entier
@@ -29,6 +31,10 @@ export default function CodeArea() {
   
   const [intervalMovingLayer, setIntervalMovingLayer] = useState(null);
 
+
+  const setTrackVariables = useVariablesStore((state) => state.setTrackVariables);
+  const setVariablesValue = useVariablesValueStore((state) => state.setVariablesValue);
+
   
 
   /**
@@ -42,9 +48,11 @@ export default function CodeArea() {
         console.log("START");
        
         let codeParse = new CodeParse(code);
-        let arr_ = codeParse.loopExtractVariables()
-        console.log(arr_);
+        let arrVariables = codeParse.loopExtractVariables()
+        console.log(arrVariables);
         console.log("boom")
+
+        setTrackVariables(arrVariables)
         
        
 
@@ -58,7 +66,8 @@ export default function CodeArea() {
         const intervalId = setInterval(
             () => {
                 if(line < nbLines){
-                    codeParse.processLine(line);
+                    let arr_var_value = codeParse.processLine(line);
+                    setVariablesValue(arr_var_value);
                     // Highlight
                     highlightCurrentLine(line+1);
                     line = line+1
@@ -69,7 +78,7 @@ export default function CodeArea() {
                     clearInterval(intervalId);
                 }
 
-            }, 400);
+            }, 1000);
 
         
         setIntervalMovingLayer(intervalId);

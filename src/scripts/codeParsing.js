@@ -42,7 +42,7 @@ export class CodeParse{
             
         }
 
-        return this.map_variables;
+        return Array.from(this.map_variables);
         
     }
 
@@ -110,6 +110,7 @@ export class CodeParse{
         if(line_code.includes("<=")) this.processSettingVar(line_index);
 
 
+        return Array.from(this.map_variables_value);
     }
 
     showTraceExec(){
